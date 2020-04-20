@@ -7,6 +7,15 @@ const context = canvas.getContext('2d');
 
 const timeline = new TimelineLoop();
 
+timeline.onUpdate = (time, totalTime) => {
+  const percent = time / totalTime;
+
+  range.value = percent * 1000;
+
+  // Called after and not before track updates :(
+  context.clearRect(0, 0, 300, 300);
+};
+
 timeline.addTrack({
   id: 'blue',
   interpolation: {
@@ -55,7 +64,6 @@ timeline.addTrack({
   ],
   onUpdate: ({ value, currentTime }) => {
     context.fillStyle = 'red';
-    context.clearRect(0, 50, 115, 15);
     context.fillRect(value * 100, 50, 10, 10);
   },
 });
@@ -82,26 +90,21 @@ timeline.addTrack({
   ],
   onUpdate: ({ value, currentTime }) => {
     context.fillStyle = 'green';
-    context.clearRect(0, 100, 115, 15);
     context.fillRect(value * 100, 100, 10, 10);
   },
 });
 
-console.log(timeline);
-
-const onRangeChange = function(evt) {
-  const value = evt.target.value;
-  timeline.seek(value / 1000);
-}
-
-range.onchange = onRangeChange;
-range.onmousemove = onRangeChange;
-
-timeline.seek(1);
+/* UI Stuff */
 
 let isPlaying = false;
 
-const onPlayPauseClick = function(evt) {
+const onRangeChange = function(evt) {
+  const value = evt.target.value;
+
+  timeline.seek(value / 1000);
+}
+
+const onPlayPauseClick = function() {
   if (!isPlaying) {
     timeline.play();
   } else {
@@ -111,4 +114,5 @@ const onPlayPauseClick = function(evt) {
   isPlaying = !isPlaying;
 }
 
-playPauseButton.onclick = onPlayPauseClick;
+range.addEventListener('input', onRangeChange);
+playPauseButton.addEventListener('click', onPlayPauseClick);
