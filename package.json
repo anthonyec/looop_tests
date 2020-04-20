@@ -1,0 +1,19 @@
+{
+  "name": "looop_test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel index.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "looop.js": "git+https://github.com/danvoyce/timline-animation-prototype.git"
+  },
+  "devDependencies": {
+    "parcel": "^1.12.4"
+  }
+}
